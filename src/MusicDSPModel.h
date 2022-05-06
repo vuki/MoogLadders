@@ -62,8 +62,8 @@ public:
 	{
 		cutoff = 2.0 * c / sampleRate;
 
-		p = cutoff * (1.8 - 0.8 * cutoff);
-		k = 2.0 * sin(cutoff * MOOG_PI * 0.5) - 1.0;
+		p = sin(cutoff * MOOG_PI * 0.5);
+		k = 2.0 * p - 1.0;
 		t1 = (1.0 - p) * 1.386249;
 		t2 = 12.0 + t1 * t1;
 
