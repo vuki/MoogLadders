@@ -3,6 +3,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include "../src/DAngeloModel.h"
 #include "../src/HuovilainenModel.h"
 #include "../src/ImprovedModel.h"
 #include "../src/KrajeskiModel.h"
@@ -29,6 +30,7 @@ return samples;})\
 
 PYBIND11_MODULE(_MoogLadder, m)
 {
+    CLASS(DAngeloMoog);
     CLASS(HuovilainenMoog);
     CLASS(ImprovedMoog);
     CLASS(KrajeskiMoog);

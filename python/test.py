@@ -9,7 +9,8 @@ except ModuleNotFoundError:
     sys.path.insert(0, f'./build/lib.win-amd64-cpython-{sys.version_info.major}{sys.version_info.minor}')
     import MoogLadder
 
-flt_type = MoogLadder.ValimakiMoog
+# flt_type = MoogLadder.ValimakiMoog
+flt_type = MoogLadder.DAngeloMoog
 # flt_type = MoogLadder.MusicDSPMoog
 # flt_type = MoogLadder.ImprovedMoog
 # flt_type = MoogLadder.HuovilainenMoog
@@ -23,7 +24,7 @@ x[0] = 0.01
 fig1, ax1 = plt.subplots(figsize=(8, 3.5), tight_layout=True)
 f = np.fft.rfftfreq(2048, 1 / 48000)
 
-r = 0.9
+r = 0.5
 for c in (500, 1000, 5000, 10000, 15000):
     flt = flt_type(fs)
     flt.cutoff = c
