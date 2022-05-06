@@ -12,6 +12,7 @@
 #include "../src/RKSimulationModel.h"
 #include "../src/SimplifiedModel.h"
 #include "../src/StilsonModel.h"
+#include "../src/ValimakiModel.h"
 
 namespace py = pybind11;
 
@@ -37,4 +38,5 @@ PYBIND11_MODULE(_MoogLadder, m)
     CLASS(RKSimulationMoog);
     CLASS(SimplifiedMoog);
     CLASS(StilsonMoog);
+    CLASS(ValimakiMoog);
 }

@@ -1,17 +1,40 @@
-import sys
-sys.path.append('./build/lib.win-amd64-cpython-310')
+import numpy as np
+from matplotlib import pyplot as plt
+from matplotlib.ticker import ScalarFormatter
 
-import _MoogLadder
+try:
+    import MoogLadder
+except ModuleNotFoundError:
+    import sys
+    sys.path.insert(0, f'./build/lib.win-amd64-cpython-{sys.version_info.major}{sys.version_info.minor}')
+    import MoogLadder
 
-print(dir(_MoogLadder))
+flt_type = MoogLadder.ValimakiMoog
+# flt_type = MoogLadder.MusicDSPMoog
+# flt_type = MoogLadder.ImprovedMoog
+# flt_type = MoogLadder.HuovilainenMoog
+# flt_type = MoogLadder.RKSimulationMoog
 
-x = [0.0, 0.25, 0.5, -0.25, 0.0, 0.25, 0.5, -0.25, 0.0, 0.25, 0.5, -0.25]
+fs = 96000
 
-# flt = _MoogLadder.MusicDSPMoog(48000)
-flt = _MoogLadder.ImprovedMoog(48000)
-flt.cutoff = 1500
-y = flt.process(x)
+x = [0] * 4096
+x[0] = 0.01
 
-print(y)
-print(x)
-print(flt.cutoff)
+fig1, ax1 = plt.subplots(figsize=(8, 3.5), tight_layout=True)
+f = np.fft.rfftfreq(2048, 1 / 48000)
+
+r = 0.9
+for c in (500, 1000, 5000, 10000, 15000):
+    flt = flt_type(fs)
+    flt.cutoff = c
+    flt.resonance = r
+    y = flt.process(x)
+    yspec = np.fft.rfft(np.asarray(y) * 100)
+    ax1.semilogx(f, 20 * np.log10(np.abs(yspec[:1025])), label=f'fc={c} Hz')
+
+ax1.set_xlim(20, 24000)
+ax1.set_ylim(bottom=-80)
+ax1.grid()
+ax1.legend()
+ax1.xaxis.set_major_formatter(ScalarFormatter())
+plt.show()
