@@ -3,7 +3,7 @@
 Filter parameters:
 * cutoff frequency: 500 Hz, 1 kHz, 5 kHz, 10 kHz, 15 kHz
 * resonance: 0.9 (90%)
-* sampling frequency: 88 kHz
+* sampling frequency: 96 kHz
 
 Expected results:
 * resonance peaks at the design cutoff frequencies
