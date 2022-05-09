@@ -116,7 +116,7 @@ public:
 		cutoff = c;
 		
 		// Normalized cutoff between [0, 1]
-		double fc = (cutoff) / sampleRate;
+		double fc = 2 * c / sampleRate;
 		double x2 = fc * fc;
 		double x3 = fc * fc * fc;
 		
