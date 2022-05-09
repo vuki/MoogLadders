@@ -5,6 +5,12 @@ Filter parameters:
 * resonance: 0.9 (90%)
 * sampling frequency: 96 kHz
 
+All plots are created by passing an unit amplitude impulse
+through the filter, computing FFT of length 4096
+from the filter output and plotting the absolute value
+(the magnitude response). The filter is double sampled,
+operating at 96 kHz sample rate. The target sample rate is 48 kHz.
+
 Expected results:
 * resonance peaks at the design cutoff frequencies
 * high resonance peaks (resonance close to 1)
@@ -13,45 +19,45 @@ Expected results:
 
 ## DangeloModel
 
-![Transfer function plot](DAngelo.png)
+![Transfer function plot](DAngeloMoog.png)
 
-## HouvilainenModel
+## HuovilainenModel
 
-![Transfer function plot](Houvilainen.png)
+![Transfer function plot](HuovilainenMoog.png)
 
 ## ImprovedModel
 
-![Transfer function plot](Improved.png)
+![Transfer function plot](ImprovedMoog.png)
 
 ## KrajeskiModel
 
-![Transfer function plot](Krajeski.png)
+![Transfer function plot](KrajeskiMoog.png)
 
 ## MicrotrackerModel
 
-![Transfer function plot](Microtracker.png)
+![Transfer function plot](MicrotrackerMoog.png)
 
 ## MusicDSPModel
 
-![Transfer function plot](MusicDSP.png)
+![Transfer function plot](MusicDSPMoog.png)
 
 ## OberheimVariationModel
 
-![Transfer function plot](OberheimVariation.png)
+![Transfer function plot](OberheimVariationMoog.png)
 
 ## RKSimulationModel
 
-![Transfer function plot](RKSimulation.png)
+![Transfer function plot](RKSimulationMoog.png)
 
 ## SimplifiedModel
 
-![Transfer function plot](Simplified.png)
+![Transfer function plot](SimplifiedMoog.png)
 
 ## StilsonModel
 
-![Transfer function plot](Stilson.png)
+![Transfer function plot](StilsonMoog.png)
 
 ## ValimakiModel
 
-![Transfer function plot](Valimaki.png)
+![Transfer function plot](ValimakiMoog.png)
 
