@@ -48,7 +48,7 @@ public:
 		drive = 1.0f;
 		
 		SetCutoff(1000.0f); // normalized cutoff frequency
-		SetResonance(0.1f); // [0, 4]
+		SetResonance(0.1f); // [0, 1]
 	}
 	
 	virtual ~ImprovedMoog() { }
@@ -59,7 +59,7 @@ public:
 
 		for (int i = 0; i < n; i++)
 		{
-			dV0 = -g * (tanh((drive * samples[i] + resonance * V[3]) / (2.0 * VT)) + tV[0]);
+			dV0 = -g * (tanh((drive * samples[i] + 4.0 * resonance * V[3]) / (2.0 * VT)) + tV[0]);
 			V[0] += (dV0 + dV[0]) / (2.0 * sampleRate);
 			dV[0] = dV0;
 			tV[0] = tanh(V[0] / (2.0 * VT));
