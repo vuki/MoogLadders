@@ -101,8 +101,7 @@ public:
 	
 	virtual void SetResonance(float r) override
 	{
-		// 0 to 10
-		resonance = r;
+		resonance = 4.0 * r;
 	}
 	
 	virtual void SetCutoff(float c) override
