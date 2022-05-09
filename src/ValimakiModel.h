@@ -23,6 +23,7 @@ public:
         b0 = 1.0f / 1.3f;
         b1 = 0.3f / 1.3f;
         g_comp = 0.5f;
+		reset();
         SetCutoff(1000.0f);
         SetResonance(0.10f);
     }
@@ -61,6 +62,12 @@ public:
         mg_g = 0.9892f * wc - 0.4342f * wc2 + 0.1381f * wc * wc2 - 0.0202f * wc2 * wc2;
         mg_gres = 1.0029f + 0.0526f * wc - 0.0926f * wc2 + 0.0218f * wc2 * wc;
     }
+	
+	void reset()
+	{
+		mg_y1 = mg_y2 = mg_y3 = mg_y4 = 0;
+		mg_prev_x = mg_prev_y1 = mg_prev_y2 = mg_prev_y3 = 0;
+	}
 
 private:
     float mg_y1, mg_y2, mg_y3, mg_y4;
