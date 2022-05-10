@@ -22,7 +22,7 @@ public:
     {
         b0 = 1.0f / 1.3f;
         b1 = 0.3f / 1.3f;
-        g_comp = 0.5f;
+        g_comp = 0;  // 0.5f: not working correctly
 		reset();
         SetCutoff(1000.0f);
         SetResonance(0.10f);
