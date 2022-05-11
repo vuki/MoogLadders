@@ -6,6 +6,7 @@
 #include "../src/DAngeloModel.h"
 #include "../src/HuovilainenModel.h"
 #include "../src/ImprovedModel.h"
+#include "../src/ImprovedAltModel.h"
 #include "../src/KrajeskiModel.h"
 #include "../src/MicrotrackerModel.h"
 #include "../src/MusicDSPModel.h"
@@ -33,6 +34,7 @@ PYBIND11_MODULE(_MoogLadder, m)
     CLASS(DAngeloMoog);
     CLASS(HuovilainenMoog);
     CLASS(ImprovedMoog);
+    CLASS(ImprovedAltMoog);
     CLASS(KrajeskiMoog);
     CLASS(MicrotrackerMoog);
     CLASS(MusicDSPMoog);
