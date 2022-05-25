@@ -18,6 +18,8 @@ except ModuleNotFoundError:
     sys.path.insert(0, f'./build/lib.win-amd64-cpython-{sys.version_info.major}{sys.version_info.minor}')
     import MoogLadder
 
+os.makedirs('images/tf', exist_ok=True)
+
 for fname in [f for f in sorted(os.listdir('../src')) if 'Model.h' in f]:
     try:
         flt_name = fname.replace('Model.h', 'Moog')
@@ -43,4 +45,4 @@ for fname in [f for f in sorted(os.listdir('../src')) if 'Model.h' in f]:
     # ax1.legend()
     ax1.xaxis.set_major_formatter(ScalarFormatter())
 
-    plt.savefig(f'../gallery/{flt_name}.png')
+    plt.savefig(f'images/tf/{flt_name}.png')

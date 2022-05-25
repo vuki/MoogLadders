@@ -52,4 +52,6 @@ dist
 *.egg-info
 *.pyd
 *.so
+/python/images
+*.*_
 
