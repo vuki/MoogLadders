@@ -9,11 +9,11 @@ except ModuleNotFoundError:
     sys.path.insert(0, f'./build/lib.win-amd64-cpython-{sys.version_info.major}{sys.version_info.minor}')
     import MoogLadder
 
-flt_type = MoogLadder.ValimakiMoog
+# flt_type = MoogLadder.ValimakiMoog
 # flt_type = MoogLadder.DAngeloMoog
 # flt_type = MoogLadder.MusicDSPMoog
 # flt_type = MoogLadder.ImprovedMoog
-# flt_type = MoogLadder.HuovilainenMoog
+flt_type = MoogLadder.HuovilainenMoog
 # flt_type = MoogLadder.RKSimulationMoog
 
 fs = 96000
@@ -29,7 +29,7 @@ for c in (500, 1000, 5000, 10000, 15000):
     flt = flt_type(fs)
     flt.cutoff = c
     flt.resonance = r
-    flt.drive = 0.5
+    flt.drive = 0
     y = flt.process(x)
     yspec = np.fft.rfft(np.asarray(y))
     ax1.semilogx(f, 20 * np.log10(np.abs(yspec[:1025])), label=f'fc={c} Hz')

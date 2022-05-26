@@ -45,6 +45,7 @@ DerivedData
 local_ignore/
 
 # Python
+*.bak
 .vscode
 __pycache__
 build

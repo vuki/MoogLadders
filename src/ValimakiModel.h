@@ -14,13 +14,12 @@
 #include "LadderFilterBase.h"
 #include "util.h"
 
-const float max_drive = 2.f;
-
 class ValimakiMoog : public LadderFilterBase {
 
 public:
     ValimakiMoog(float sampleRate)
         : LadderFilterBase(sampleRate)
+        , max_drive(2.f)
     {
         gcomp = 0; // 0.5f: not working correctly
         reset();
@@ -85,7 +84,7 @@ private:
     float yp[5];
     float g1, g2, g3, gres, gcomp;
     float res;
-    float scaler, out_scaler;
+    float scaler, out_scaler, max_drive;
 };
 
 #endif

@@ -8,7 +8,8 @@ except ModuleNotFoundError:
     sys.path.insert(0, f'./build/lib.win-amd64-cpython-{sys.version_info.major}{sys.version_info.minor}')
     import MoogLadder
 
-flt_type = MoogLadder.ValimakiMoog
+# flt_type = MoogLadder.ValimakiMoog
+flt_type = MoogLadder.HuovilainenMoog
 
 f0 = 1000
 fc = 16000
