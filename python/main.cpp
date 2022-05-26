@@ -27,6 +27,7 @@ filter.Process(samples.data(), static_cast<uint32_t>(samples.size()));\
 return samples;})\
 .def_property("resonance", &cls::GetResonance, &cls::SetResonance)\
 .def_property("cutoff", &cls::GetCutoff, &cls::SetCutoff)\
+.def_property("drive", &cls::GetDrive, &cls::SetDrive)\
 // clang-format on
 
 PYBIND11_MODULE(_MoogLadder, m)

@@ -4,6 +4,7 @@ from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
 import sys
 import setuptools
+import os
 
 __version__ = '1.0.0'
 
@@ -32,6 +33,7 @@ ext_modules = [
             get_pybind_include(),
             get_pybind_include(user=True)
         ],
+        depends=[f for f in os.listdir('../src') if f.endswith('.h')],
         language='c++'
     ),
 ]
