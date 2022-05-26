@@ -29,6 +29,7 @@ for c in (500, 1000, 5000, 10000, 15000):
     flt = flt_type(fs)
     flt.cutoff = c
     flt.resonance = r
+    flt.drive = 0.5
     y = flt.process(x)
     yspec = np.fft.rfft(np.asarray(y))
     ax1.semilogx(f, 20 * np.log10(np.abs(yspec[:1025])), label=f'fc={c} Hz')
