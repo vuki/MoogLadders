@@ -34,7 +34,7 @@ class HuovilainenMoog : public LadderFilterBase
 {
 public:
 	
-	HuovilainenMoog(float sampleRate) : LadderFilterBase(sampleRate), thermal(0.000025)
+	HuovilainenMoog(float sampleRate) : LadderFilterBase(sampleRate), thermal(0.015625)
 	{
 		memset(stage, 0, sizeof(stage));
 		memset(delay, 0, sizeof(delay));
