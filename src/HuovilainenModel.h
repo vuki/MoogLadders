@@ -18,7 +18,8 @@ class HuovilainenMoog : public LadderFilterBase {
 public:
     HuovilainenMoog(float sampleRate)
         : LadderFilterBase(sampleRate)
-        , max_drive(2.f)
+        , maxDrive(2.f)
+		, dcGainComp(0)
     {
         stage[0] = stage[1] = stage[2] = stage[3] = 0;
         stageTanh[0] = stageTanh[1] = stageTanh[2] = 0;
@@ -42,13 +43,14 @@ public:
             fb = stage[3];
             stage[3] += tune * (stageTanh[2] - tanh(stage[3]));
             fb = (stage[3] + fb) * 0.5f;
-            samples[s] = out_scaler * stage[3];
+            samples[s] = out_scaler * gComp * stage[3];
         }
     }
 
     virtual void SetResonance(float r) override
     {
         resonance = r;
+		gComp = 1.f + 4.f * dcGainComp * resonance;
     }
 
     virtual void SetCutoff(float c) override
@@ -65,7 +67,7 @@ public:
     {
         // d is in range 0 to 1
         drive = d;
-        scaler = (drive * max_drive * 64.f + 1.f) / 64.f;
+        scaler = (drive * maxDrive * 64.f + 1.f) / 64.f;
         out_scaler = 1.f / std::tanh(scaler);
     }
 
@@ -75,7 +77,8 @@ private:
     float fb;
     float tune;
     float acr;
-    float scaler, out_scaler, max_drive;
+    float scaler, out_scaler, maxDrive;
+	float dcGainComp, gComp;
 };
 
 #endif
