@@ -35,22 +35,21 @@ THE SOFTWARE.
 
 #include <cmath>
 #include "LadderFilterBase.h"
-#include "util.h"
 
 class DAngeloMoog : public LadderFilterBase {
 
 public:
     DAngeloMoog(float sampleRate)
         : LadderFilterBase(sampleRate)
-        , k(0)
+        , gainComp(0)
         , alpha(1.f)
     {
-        VT = 26e-3f;
+        VT = 32.f; // empirical, to use linear section of tanh
         VT2 = 2 * VT;
         VT2i = 1.f / VT2;
         reset();
         SetCutoff(1000.0f);
-        SetResonance(0.10f);
+        SetResonance(0);
     }
 
     virtual ~DAngeloMoog() { }
@@ -58,16 +57,16 @@ public:
     virtual void Process(float* samples, uint32_t n) override
     {
         for (uint32_t s = 0; s < n; ++s) {
-            float yo = fast_tanhf(k0g * (samples[s] + sg[0]));
+            float yo = std::tanh(k0g * (samples[s] + sg[0]));
             float yn;
             for (int n = 0; n < 4; n++) {
                 const float yi = yo;
                 const float yd = k0s * (yi + sf[n]);
                 yn = yd + si[n];
-                yo = fast_tanh(VT2i * yn);
+                yo = std::tanh(VT2i * yn);
                 si[n] = yd + yn;
                 sf[n] = r1s * yi - q0s * yo;
-                out[n] = yn * (1.f + k);
+                out[n] = yn;
             }
             const float yf = k * yn;
             sg[0] = rg[0] * samples[s] + qg[0] * yf + sg[1];
@@ -75,7 +74,7 @@ public:
             sg[2] = rg[2] * samples[s] + qg[2] * yf + sg[3];
             sg[3] = rg[3] * samples[s] + qg[3] * yf;
 
-            samples[s] = out[3];
+            samples[s] = out[3] * (1.f + gainComp * k);
         }
     }
 
@@ -94,6 +93,7 @@ public:
     }
 
 private:
+    float gainComp; // DC gain compensation, 0 to 1
     float k, alpha;
     float VT, VT2, VT2i;
     float q0s, r1s, k0s, k0g;

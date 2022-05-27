@@ -10,10 +10,10 @@ except ModuleNotFoundError:
     import MoogLadder
 
 # flt_type = MoogLadder.ValimakiMoog
-# flt_type = MoogLadder.DAngeloMoog
+flt_type = MoogLadder.DAngeloMoog
 # flt_type = MoogLadder.MusicDSPMoog
 # flt_type = MoogLadder.ImprovedMoog
-flt_type = MoogLadder.HuovilainenMoog
+# flt_type = MoogLadder.HuovilainenMoog
 # flt_type = MoogLadder.RKSimulationMoog
 
 fs = 96000
