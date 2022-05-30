@@ -41,3 +41,4 @@ ax1.grid(which='both')
 # ax1.legend()
 ax1.xaxis.set_major_formatter(ScalarFormatter())
 plt.show()
+

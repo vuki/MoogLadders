@@ -10,6 +10,7 @@ except ModuleNotFoundError:
 
 # flt_type = MoogLadder.ValimakiMoog
 flt_type = MoogLadder.HuovilainenMoog
+# flt_type = MoogLadder.DAngeloMoog
 
 f0 = 1000
 fc = 16000

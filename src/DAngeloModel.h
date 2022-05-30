@@ -41,15 +41,14 @@ class DAngeloMoog : public LadderFilterBase {
 public:
     DAngeloMoog(float sampleRate)
         : LadderFilterBase(sampleRate)
-        , gainComp(0)
+        , dcGainComp(0)
+		, maxDrive(2.f)
         , alpha(1.f)
     {
-        VT = 32.f; // empirical, to use linear section of tanh
-        VT2 = 2 * VT;
-        VT2i = 1.f / VT2;
         reset();
         SetCutoff(1000.0f);
         SetResonance(0);
+		SetDrive(0);
     }
 
     virtual ~DAngeloMoog() { }
@@ -57,16 +56,16 @@ public:
     virtual void Process(float* samples, uint32_t n) override
     {
         for (uint32_t s = 0; s < n; ++s) {
-            float yo = std::tanh(k0g * (samples[s] + sg[0]));
+            float yo = std::tanh(k0g * VT2i * (samples[s] + sg[0]));
             float yn;
             for (int n = 0; n < 4; n++) {
                 const float yi = yo;
-                const float yd = k0s * (yi + sf[n]);
+                const float yd = k0s * VT2 * (yi + sf[n]);
                 yn = yd + si[n];
                 yo = std::tanh(VT2i * yn);
                 si[n] = yd + yn;
                 sf[n] = r1s * yi - q0s * yo;
-                out[n] = yn;
+                out[n] = yn * gComp;
             }
             const float yf = k * yn;
             sg[0] = rg[0] * samples[s] + qg[0] * yf + sg[1];
@@ -74,7 +73,7 @@ public:
             sg[2] = rg[2] * samples[s] + qg[2] * yf + sg[3];
             sg[3] = rg[3] * samples[s] + qg[3] * yf;
 
-            samples[s] = out[3] * (1.f + gainComp * k);
+            samples[s] = out[3];
         }
     }
 
@@ -83,6 +82,7 @@ public:
         resonance = r;
         k = 4.f * r;
         alpha = std::sqrt(1.f + std::pow(k, 0.5f) - 2.f * std::pow(k, 0.25f) * 0.7071067811865476f);
+		gComp = 1.f + 4.f * dcGainComp * resonance;
         computeFilter();
     }
 
@@ -92,10 +92,20 @@ public:
         computeFilter();
     }
 
+    virtual void SetDrive(float d) override
+    {
+        // d is in range 0 to 1
+        drive = d;
+        VT2i = (drive * maxDrive * 64.f + 1.f) / 64.f;
+        VT2 = 1.f / VT2i;
+    }
+
 private:
-    float gainComp; // DC gain compensation, 0 to 1
+	float dcGainComp; // DC gain compensation, 0 to 1
+	float maxDrive;  // maximum filter drive, 0 to 1
+    float gComp;
     float k, alpha;
-    float VT, VT2, VT2i;
+    float VT2, VT2i;
     float q0s, r1s, k0s, k0g;
     float si[4];
     float sf[4];
@@ -113,15 +123,14 @@ private:
 
     void computeFilter()
     {
-        const float g = std::tan(MOOG_PI * cutoff / sampleRate) / alpha;
+        const float g = static_cast<float>(std::tan(MOOG_PI * cutoff / sampleRate) / alpha);
         const float p0s = 1.f / (1.f + g);
         q0s = 1.f - g;
         r1s = -g;
-        k0s = VT2 * g * p0s;
+        k0s = g * p0s;
         const float kgN = k * std::pow(1.f - p0s, 4.f);
-        const float p0g = 1.f / (1.f + kgN);
+        k0g = -1.f / (1.f + kgN);
         const float binom[4] = { 4.f, 6.f, 4.f, 1.f };
-        k0g = -VT2i * p0g;
         for (int i = 0; i < 4; i++) {
             rg[i] = -binom[i] * kgN;
             qg[i] = rg[i] - binom[i] * std::pow((g - 1.f) * p0s, i + 1.f);
