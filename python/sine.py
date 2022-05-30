@@ -31,7 +31,7 @@ flt.cutoff = fc
 flt.resonance = res
 flt.drive = drive
 
-y = flt.process(x)
+y = np.array(flt.process(x))
 
 # decimate
 y = y[1::2]
@@ -48,8 +48,12 @@ p = round(f0 * ns / fs)
 ytmp[p - 4:p + 4] = 0
 sumsq_y = np.sum(ytmp[1:]**2)
 thd = 100 * np.sqrt(sumsq_y / sumsq_x)
+
+print('Output amplitude: {:.3f}'.format(np.max(np.abs(y))))
 print('Max input level:  {:.3f} dB'.format(20 * np.log10(np.max(axspec))))
 print('Max output level: {:.3f} dB'.format(20 * np.log10(np.max(ayspec))))
+print('Input RMS:        {:.3f}'.format(np.sqrt(np.mean(x * x))))
+print('Output RMS:       {:.3f}'.format(np.sqrt(np.mean(y * y))))
 print('THD: {:.3f}%'.format(thd))
 
 fig, ax = plt.subplots(figsize=(10, 4), tight_layout=True)
